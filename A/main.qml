@@ -30,7 +30,7 @@ Window {
 
             Text {
                 id: menuComponentTitle
-                text: "↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑"
+                text: "..."
                 anchors.horizontalCenter: parent.horizontalCenter
                 font.pointSize: 12
                 horizontalAlignment: Text.AlignHCenter
@@ -40,7 +40,18 @@ Window {
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: function(){
                     var coord = positionSrc.position.coordinate;
-                    menuComponentTitle.text = coord.longitude + " - " + coord.latitude
+                    var txt = coord.longitude + " - " + coord.latitude + "\n";
+                    txt += "longitude: " + coord.longitude.longitude + "(" + positionSrc.position.longitudeValid + ")\n"
+                    txt += "latitude: " + coord.latitude + "(" + positionSrc.position.latitudeValid + ")\n"
+                    txt += "altitude: " + coord.altitude + "(" + positionSrc.position.altitudeValid + ")\n"
+                    txt += "direction: " + positionSrc.position.direction + "(" + positionSrc.position.directionValid + ")\n"
+                    txt += "horizontalAccuracy: " + positionSrc.position.horizontalAccuracy + "(" + positionSrc.position.horizontalAccuracyValid + ")\n"
+                    txt += "magneticVariation: " + positionSrc.position.magneticVariation + "(" + positionSrc.position.magneticVariationValid + ")\n"
+                    txt += "speed: " + positionSrc.position.speed + "(" + positionSrc.position.speedValid + ")\n"
+                    txt += "verticalAccuracy: " + positionSrc.position.verticalAccuracy + "(" + positionSrc.position.verticalAccuracyValid + ")\n"
+                    txt += "verticalSpeed: " + positionSrc.position.verticalSpeed + "(" + positionSrc.position.verticalSpeedValid + ")\n"
+                    txt += "timestamp: " + positionSrc.position.timestamp
+                    menuComponentTitle.text = txt;
                 }
             }
         }
