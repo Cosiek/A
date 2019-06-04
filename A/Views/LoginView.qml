@@ -104,6 +104,10 @@ LoginViewForm {
         form.logIn(loginNameInput.text, loginPasswordInput.text, false)
     }
 
+    registrationViewLink.onClicked: {
+        stackView.push("DeviceRegView.qml")
+    }
+
     Component.onCompleted: {
         // try to get login data from storage
         loginPasswordInput.echoMode = TextInput.PasswordEchoOnEdit
@@ -119,3 +123,10 @@ LoginViewForm {
         }
     }
 }
+
+
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/

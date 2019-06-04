@@ -8,6 +8,7 @@ Item {
     property alias loginNameInput: loginNameInput
     property alias loginPasswordInput: loginPasswordInput
     property alias loginErrorText: loginErrorText
+    property alias registrationViewLink: registrationViewLink
 
     Column {
         id: column
@@ -66,6 +67,12 @@ Item {
         BusyIndicator {
             id: busyIndicator
             visible: false
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        Button {
+            id: registrationViewLink
+            text: qsTr("rejestracja urządzenia")
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
