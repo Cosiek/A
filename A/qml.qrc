@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>Views/LoginView.qml</file>
         <file>Views/LoginViewForm.ui.qml</file>
+        <file>DBHandling.js</file>
     </qresource>
 </RCC>

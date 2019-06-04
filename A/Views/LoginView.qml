@@ -1,10 +1,11 @@
 import QtQuick 2.4
 import QtQuick.LocalStorage 2.0
 
+import "../DBHandling.js" as DB
+
 
 LoginViewForm {
     id: form
-    property var db: null
 
     function lockForm() {
         loginNameInput.enabled = false
@@ -67,36 +68,9 @@ LoginViewForm {
                     function(){console.log(":,(")}
         )
 
-        form.writeLoginDataToDB(form.db, login, pass)
+        DB.writeLoginDataToDB(login, pass)
         var msg = "???"
         form.unlockForm(msg)
-    }
-
-    function getLoginDataFromDB(db){
-        var ret = {"login": null, "pass": null}
-        db.transaction(
-            function(tx){
-                // Create a table if it doesn't already exist
-                tx.executeSql('CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, val TEXT)')
-                // pull out login data
-                var rs = tx.executeSql('SELECT * FROM settings WHERE key = "login" OR key = "pass"')
-                for (var i = 0; i < rs.rows.length; i++) {
-                    var row = rs.rows.item(i)
-                    if (row.key === "login"){ ret.login = row.val }
-                    if (row.key === "pass"){ ret.pass = row.val }
-                }
-            }
-        )
-        return ret
-    }
-
-    function writeLoginDataToDB(db, login, pass){
-        db.transaction(
-            function(tx){
-                tx.executeSql('INSERT INTO settings VALUES("login", ?)', [login,])
-                tx.executeSql('INSERT INTO settings VALUES("pass", ?)', [pass,])
-            }
-        )
     }
 
     loginButton.onClicked: {
@@ -112,8 +86,7 @@ LoginViewForm {
         // try to get login data from storage
         loginPasswordInput.echoMode = TextInput.PasswordEchoOnEdit
         // if login data is available...
-        form.db = LocalStorage.openDatabaseSync("A_DB", "1.0", "A database", 1000000)
-        var logData = form.getLoginDataFromDB(form.db)
+        var logData = DB.getLoginDataFromDB(form.db)
         console.log(logData.login, logData.pass)
 
         if (logData.login && logData.pass){     // try to log in
