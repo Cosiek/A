@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.LocalStorage 2.0
 
 import "../DBHandling.js" as DB
+import "../HttpRequest.js" as HttpRequest
 
 
 LoginViewForm {
@@ -28,24 +29,6 @@ LoginViewForm {
         return pass
     }
 
-    function sendRequest(url, data, success, fial){
-        // TODO - move this someplace else
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = (function() {
-            if (xhr.readyState === XMLHttpRequest.DONE
-                    && xhr.status === 200) {
-                success(xhr)
-            } else if (xhr.readyState === XMLHttpRequest.DONE
-                    && xhr.status === 0){
-                console.log("TODO: No internet connection!")
-            }
-        })
-        xhr.onerror = fial
-
-        xhr.open('GET', url, true);
-        xhr.send("x=1&y=2");
-    }
-
     function logIn(login, pass, obscured){
         // TODO: use some file for text messages
         var MESSAGES = {
@@ -61,11 +44,11 @@ LoginViewForm {
         // obscure password
         if (!obscured){ pass = form.obscure(pass) }
         // send request to server
-        form.sendRequest(
+        HttpRequest.send(
                     "https://postman-echo.com/get",
                     null,
-                    function(){console.log(":D")},
-                    function(){console.log(":,(")}
+                    function(xhr){console.log(":D " + xhr.status)},
+                    function(xhr){console.log(":,( " + xhr.status)}
         )
 
         DB.writeLoginDataToDB(login, pass)

@@ -4,5 +4,6 @@
         <file>Views/LoginView.qml</file>
         <file>Views/LoginViewForm.ui.qml</file>
         <file>DBHandling.js</file>
+        <file>HttpRequest.js</file>
     </qresource>
 </RCC>
