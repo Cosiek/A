@@ -1,5 +1,18 @@
 
 function send(url, data, success, fial){
+    // get id and key
+    var id = ""
+    var key = ""
+    // make the request
+    send(url, data, id, key, success, fial)
+}
+
+
+function _send(url, data, id, key, success, fial){
+    // sign data
+    data['id'] = id
+    data['signature'] = getSignature(data, key)
+    // send request
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = (function() {
         if (xhr.readyState === XMLHttpRequest.DONE
@@ -16,6 +29,6 @@ function send(url, data, success, fial){
     })
     xhr.onerror = fial
 
-    xhr.open('GET', url, true);
+    xhr.open('POST', url, true);
     xhr.send(data);
 }
