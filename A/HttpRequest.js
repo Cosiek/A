@@ -11,6 +11,7 @@ function send(url, data, success, fial){
 function _send(url, data, id, key, success, fial){
     // sign data
     data['id'] = id
+    data['timestamp'] = Date.now()
     data['signature'] = getSignature(data, key)
     // send request
     var xhr = new XMLHttpRequest();
