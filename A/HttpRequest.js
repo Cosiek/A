@@ -4,7 +4,7 @@ function send(url, data, success, fial){
     var id = ""
     var key = ""
     // make the request
-    send(url, data, id, key, success, fial)
+    _send(url, data, id, key, success, fial)
 }
 
 
@@ -32,4 +32,9 @@ function _send(url, data, id, key, success, fial){
 
     xhr.open('POST', url, true);
     xhr.send(data);
+}
+
+
+function getSignature(data, key){
+    return signer.getSignature(JSON.stringify(data), key)
 }

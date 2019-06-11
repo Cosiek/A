@@ -1,5 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
+
+#include "helpers/signer.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +17,12 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
-    engine.load(url);
 
+
+    QScopedPointer<Signer> signer_ptr(new Signer);
+    Signer * signer = signer_ptr.data();
+    engine.rootContext()->setContextProperty("signer", signer);
+
+    engine.load(url);
     return app.exec();
 }
