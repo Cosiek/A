@@ -7,6 +7,7 @@ Item {
     property alias idInput: idInput
     property alias busyIndicator: busyIndicator
     property alias backButton: backButton
+    property alias errorText: errorText
 
     Column {
         id: column
@@ -47,15 +48,16 @@ Item {
 
         TextField {
             id: keyInput
-            font.pointSize: 15
+            horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
-            font.pixelSize: 12
+            font.pixelSize: 15
         }
 
         Text {
             id: errorText
             color: "#ff0000"
             text: qsTr(" ")
+            horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 12
         }
@@ -73,6 +75,9 @@ Item {
         }
     }
 }
+
+
+
 
 /*##^## Designer {
     D{i:0;autoSize:true;height:480;width:640}

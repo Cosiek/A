@@ -3,6 +3,8 @@
         <file>main.qml</file>
         <file>Views/LoginView.qml</file>
         <file>Views/LoginViewForm.ui.qml</file>
+        <file>Views/DeviceRegView.qml</file>
+        <file>Views/DeviceRegViewForm.ui.qml</file>
         <file>DBHandling.js</file>
         <file>HttpRequest.js</file>
     </qresource>
