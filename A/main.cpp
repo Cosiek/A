@@ -11,6 +11,11 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    bool isDebug = false;
+    #ifdef QT_DEBUG
+        isDebug = true;
+    #endif
+
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -19,12 +24,12 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
 
-
     QScopedPointer<Signer> signer_ptr(new Signer);
     Signer * signer = signer_ptr.data();
     engine.rootContext()->setContextProperty("signer", signer);
 
-    QScopedPointer<SettingsHandler> settings_handler_ptr(new SettingsHandler);
+    QScopedPointer<SettingsHandler> settings_handler_ptr(
+                new SettingsHandler(nullptr, isDebug));
     SettingsHandler * settings_handler = settings_handler_ptr.data();
     engine.rootContext()->setContextProperty(
                 "permanentSettings", settings_handler);
