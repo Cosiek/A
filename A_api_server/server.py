@@ -3,13 +3,11 @@
 
 from aiohttp import web
 
-
-async def hello(request):
-    return web.Response(text="Hello, world")
+import views
 
 
 if __name__ == "__main__":
     app = web.Application()
-    app.add_routes([web.get('/', hello)])
+    app.add_routes([web.post('/device/register', views.device_register)])
 
     web.run_app(app)
