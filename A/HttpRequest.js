@@ -23,15 +23,16 @@ function _send(url, data, id, key, success, fial){
                 && xhr.status === 0){
             console.log("TODO: No internet connection!")
             fial(xhr)
-        } else if (xhr.readyState === XMLHttpRequest.DONE
-                   && xhr.status === 0){
+        } else if (xhr.readyState === XMLHttpRequest.DONE){
             fial(xhr)
         }
     })
+    // TODO: make sure this doesn't double with onreadystatechange
     xhr.onerror = fial
 
     xhr.open('POST', url, true);
-    xhr.send(data);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify(data));
 }
 
 
