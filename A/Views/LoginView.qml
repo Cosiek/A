@@ -46,7 +46,7 @@ LoginViewForm {
         // send request to server
         HttpRequest.send(
                     "https://postman-echo.com/get",
-                    null,
+                    {},
                     function(xhr){console.log(":D " + xhr.status)},
                     function(xhr){console.log(":,( " + xhr.status)}
         )

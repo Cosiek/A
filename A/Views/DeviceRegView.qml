@@ -22,9 +22,11 @@ DeviceRegViewForm {
 
         function fial(xhr){
             // display error msg
-            var txt = "Błędna odpowiedź serwera:\n"
+            var txt = "Błąd!\nOdpowiedź serwera:\n"
             txt += xhr.status + ": " + xhr.statusText
-            txt += "\n" + xhr.responseText
+            if (xhr.status + ": " + xhr.statusText !== xhr.responseText){
+                txt += "\n" + xhr.responseText
+            }
             errorText.text = txt
 
             unlockForm()
@@ -33,7 +35,7 @@ DeviceRegViewForm {
         // prepare data to send
         var dt = { 'id': idInput.text }
         // make a request
-        HttpRequest._send("https://postman-echo.com/post", dt, dt.id,
+        HttpRequest._send("http://127.0.0.1:8080/device/register", dt, dt.id,
                           keyInput.text, success, fial)
     }
 
