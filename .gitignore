@@ -3,3 +3,4 @@ build-A-Android_for_x86_Clang_Qt_5_10_1_for_Android_x86-Debug/*
 build-A-Android_for_armeabi_v7a_Clang_Qt_5_10_1_for_Android_armv7-Debug/*
 
 *.pyc
+*.db
