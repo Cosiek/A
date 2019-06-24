@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from datetime import datetime
 import importlib.util
 import os
 from os.path import basename, join, dirname, realpath
@@ -17,6 +18,14 @@ CURRENT_DIR = dirname(realpath(__file__))
 
 class BaseMigration:
     depends_on = []
+    rollback_on_error = True
+
+    class STATUS:
+        new = 0
+        failed = 1
+        rolled_back = 2
+        reversed = 3
+        done = 4
 
     def __init__(self, id_, name, status, finished):
         self.id_ = id_
@@ -27,6 +36,16 @@ class BaseMigration:
     @property
     def is_done(self):
         return self.finished is not None
+
+    def _run(self):
+        try:
+            self.run()
+            self.status = self.STATUS.done
+            self.finished = datetime.now()
+        except:
+            if self.rollback_on_error:
+                self.rollback()
+                self.status = self.STATUS.rolled_back
 
     def run(self):
         raise NotImplementedError
@@ -89,7 +108,7 @@ class MigrationRunner:
             migration_kwargs = {
                 'id_': db_mi[0] if db_mi else None,
                 'name': name,
-                'status': db_mi[0] if db_mi else 0,
+                'status': db_mi[0] if db_mi else BaseMigration.STATUS.new,
                 'finished': db_mi[0] if db_mi else None,
             }
 
@@ -102,7 +121,7 @@ class MigrationRunner:
         # run migrations
         for migration in migrations:
             if not migration.is_done:
-                migration.run()
+                migration._run()
                 # save migration run info
                 self.save_migration_run_data(migration, table, conn)
 
@@ -110,7 +129,7 @@ class MigrationRunner:
         table = Table(self.settings.migrations_table_name, metadata,
                 Column('Id', Integer, primary_key=True, nullable=False),
                 Column('Name', String(60)),
-                Column('Status', Integer, default=0),
+                Column('Status', Integer, default=BaseMigration.STATUS.new),
                 Column('Finished', Date)
         )
         metadata.create_all()
