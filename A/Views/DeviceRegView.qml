@@ -1,8 +1,13 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.1
 
 import "../HttpRequest.js" as HttpRequest
 
 DeviceRegViewForm {
+
+    StackView.onActivating: {
+        idInput.text = permanentSettings.get('identifier') || ''
+    }
 
     backButton.onClicked: {
         stackView.pop()
