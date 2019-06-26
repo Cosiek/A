@@ -5,6 +5,8 @@ import hashlib
 import hmac
 import json
 
+from models import Device
+
 
 def get_signature(params, key):
     # prepare data
@@ -20,38 +22,41 @@ def get_signature(params, key):
     return m.hexdigest()
 
 
-async def validate(request):
+async def validate(request, session):
     try:
         params = json.loads(await request.text())
     except json.decoder.JSONDecodeError:
         # invalid data
-        return False, {'text': "Bad Request", 'status': 400}, None
+        return False, {'text': "Bad Request", 'status': 400}, None, None
 
     device_id = params.get("id")
     device_signature = params.get("signature")
     device_timestamp = params.get("timestamp")
 
     if None in [device_id, device_signature, device_timestamp]:
-        return False, {'text': "Bad Request", 'status': 400}, None
+        return False, {'text': "Bad Request", 'status': 400}, None, None
 
     if not (isinstance(device_timestamp, int)
             or device_timestamp < 1560893551960):
-        return False, {'text': "Bad Request", 'status': 400}, None
+        return False, {'text': "Bad Request", 'status': 400}, None, None
 
     # get device data from db
-    device = {"id": device_id, "key": "123", "timestamp": 0}  # mock - for now
+    device = session.query(Device).filter_by(name=device_id).first()
     if device is None:
-        return False, {'text': "Not Found", 'status': 404}, None
+        return (False,
+                {'text': "Błędny identyfikator urządzenia.", 'status': 404},
+                None, None)
 
-    # check if incoming timestamp is later then last recieved one
-    if device["timestamp"] >= device_timestamp:
-        return False, {'text': "Bad Request", 'status': 400}, None
+    # check if incoming timestamp is later then last received one
+    if device.timestamp >= device_timestamp:
+        return False, {'text': "Bad Request", 'status': 400}, None, None
 
     # generate signature based on passed data
-    local_signature = get_signature(params, device["key"])
+    local_signature = get_signature(params, device.key)
 
     # compare signatures
     if device_signature == local_signature:
-        return True, {'text': "Ok", 'status': 200}, None
+        return True, {'text': "Ok", 'status': 200}, device, params
     else:
-        return True, {'text': "Unauthorized", 'status': 401}, params
+        return (False, {'text': "Zły podpis wiadomośći.", 'status': 401},
+                device, params)
