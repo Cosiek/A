@@ -40,8 +40,8 @@ DeviceRegViewForm {
         // prepare data to send
         var dt = { 'id': idInput.text }
         // make a request
-        HttpRequest._send("http://127.0.0.1:8080/device/register", dt, dt.id,
-                          keyInput.text, success, fial)
+        HttpRequest._send("/device/register", dt, dt.id, keyInput.text,
+                          success, fial)
     }
 
     function lockForm(){
