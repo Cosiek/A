@@ -1,19 +1,62 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.1
 import QtQuick.LocalStorage 2.0
 
 import "../DBHandling.js" as DB
 import "../HttpRequest.js" as HttpRequest
+import "../Settings.js" as Settings
 
 
 LoginViewForm {
     id: form
+
+    function enterForm(){
+        form.lockForm()
+        //registrationViewLink.enabled = false
+        // check if device is registered
+        if (permanentSettings.get('identifier') && permanentSettings.get('key')){
+            // try to get drivers from server
+
+            // prepare success callback
+            function success(xhr){
+                console.log(":D " + xhr.status)
+                form.unlockForm()
+                var resp = JSON.parse(xhr.responseText);
+                // fill login with prefered driver data
+                loginNameInput.text = resp.lastDriver || ""
+                // check if password is required
+                if (!resp.passwordRequired){
+                    loginPasswordInput.text = ""
+                    loginPasswordInput.enabled = false
+                }
+            }
+
+            // prepare fial callback
+            function fial(xhr){
+                console.log(":,( " + xhr.status)
+                // display error msg
+                var txt = "Błąd!\nOdpowiedź serwera:\n"
+                txt += xhr.status + ": " + xhr.statusText
+                if (xhr.status + ": " + xhr.statusText !== xhr.responseText){
+                    txt += "\n" + xhr.responseText
+                }
+                unlockForm(txt)
+            }
+
+            // send request
+            HttpRequest.send("/drivers", {}, success, fial)
+        } else {
+            // allow way to device registration view
+            registrationViewLink.enabled = true
+        }
+    }
 
     function lockForm() {
         loginNameInput.enabled = false
         loginPasswordInput.enabled = false
         loginButton.enabled = false
         loginErrorText.text = ' '
-        busyIndicator.visible = true
+        busyIndicator.running = true
     }
 
     function unlockForm(loginErrorTextText) {
@@ -21,7 +64,7 @@ LoginViewForm {
         loginPasswordInput.enabled = true
         loginButton.enabled = true
         loginErrorText.text = loginErrorTextText || ' '
-        busyIndicator.visible = false
+        busyIndicator.running = false
     }
 
     function obscure(pass){
@@ -65,24 +108,7 @@ LoginViewForm {
         stackView.push("DeviceRegView.qml")
     }
 
-    Component.onCompleted: {
-        // try to get login data from storage
-        loginPasswordInput.echoMode = TextInput.PasswordEchoOnEdit
-        // if login data is available...
-        var logData = DB.getLoginDataFromDB(form.db)
-        console.log(logData.login, logData.pass)
+    StackView.onActivating: enterForm()
 
-        if (logData.login && logData.pass){     // try to log in
-            form.logIn(logData.login, logData.pass, true)
-        } else {                                // otherwise unlock the form
-            form.unlockForm()
-        }
-    }
+    Component.onCompleted: enterForm()
 }
-
-
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
- ##^##*/
