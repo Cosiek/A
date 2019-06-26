@@ -7,5 +7,6 @@
         <file>Views/DeviceRegViewForm.ui.qml</file>
         <file>DBHandling.js</file>
         <file>HttpRequest.js</file>
+        <file>Settings.js</file>
     </qresource>
 </RCC>
