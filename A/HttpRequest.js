@@ -30,6 +30,11 @@ function _send(url, data, id, key, success, fial){
     // TODO: make sure this doesn't double with onreadystatechange
     xhr.onerror = fial
 
+    // prepare url
+    if (url.indexOf("http") !== 0){
+        url = Settings.SERVER_DOMAIN + url;
+    }
+
     xhr.open('POST', url, true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send(JSON.stringify(data));
