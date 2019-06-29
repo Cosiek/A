@@ -15,6 +15,12 @@ class Device(Base):
     key = Column(String(32))
     timestamp = Column(Integer)
 
+    vehicle_id = Column(Integer, ForeignKey('vehicles.id'))
+    vehicle = relationship("Vehicle", uselist=False, back_populates="vehicle")
+
+    firm_id = Column(Integer, ForeignKey('firms.id'))
+    firm = relationship("Firm", back_populates="vehicles")
+
 
 class Vehicle(Base):
     __tablename__ = 'vehicles'
