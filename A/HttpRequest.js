@@ -1,3 +1,4 @@
+Qt.include("Settings.js")
 
 function send(url, data, success, fial){
     // get id and key
@@ -32,7 +33,7 @@ function _send(url, data, id, key, success, fial){
 
     // prepare url
     if (url.indexOf("http") !== 0){
-        url = Settings.SERVER_DOMAIN + url;
+        url = SERVER_DOMAIN + url;
     }
 
     xhr.open('POST', url, true);
