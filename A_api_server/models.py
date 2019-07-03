@@ -53,3 +53,10 @@ class Driver(Base):
 
     firm_id = Column(Integer, ForeignKey('firms.id'))
     firm = relationship("Firm", back_populates="drivers")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'firm_id': self.firm_id,
+        }
