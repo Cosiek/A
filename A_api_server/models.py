@@ -49,6 +49,7 @@ class Driver(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(40))
+    password = Column(String(12))
 
     firm_id = Column(Integer, ForeignKey('firms.id'))
     firm = relationship("Firm", back_populates="drivers")
