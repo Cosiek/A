@@ -1,9 +1,10 @@
 Qt.include("Settings.js")
+// TODO: Qt statless libraries
 
 function send(url, data, success, fial){
     // get id and key
-    var id = ""
-    var key = ""
+    var id = permanentSettings.get('identifier');
+    var key = permanentSettings.get('key');
     // make the request
     _send(url, data, id, key, success, fial)
 }
