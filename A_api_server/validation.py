@@ -22,19 +22,22 @@ def get_signature(params, key):
     return m.hexdigest()
 
 
-async def validate(request, session):
+async def validate(request, session, required_params=None):
+    required_params = set(required_params or [])
+    required_params.update(['id', 'signature', 'timestamp'])
     try:
         params = json.loads(await request.text())
     except json.decoder.JSONDecodeError:
         # invalid data
         return False, {'text': "Bad Request", 'status': 400}, None, None
 
+    for param_name in required_params:
+        if params.get(param_name) is None:
+            return False, {'text': "Bad Request", 'status': 400}, None, None
+
     device_id = params.get("id")
     device_signature = params.get("signature")
     device_timestamp = params.get("timestamp")
-
-    if None in [device_id, device_signature, device_timestamp]:
-        return False, {'text': "Bad Request", 'status': 400}, None, None
 
     if not (isinstance(device_timestamp, int)
             or device_timestamp < 1560893551960):
