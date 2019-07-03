@@ -87,22 +87,30 @@ LoginViewForm {
         }
         // obscure password
         pass = form.obscure(pass)
-        // send request to server
-        HttpRequest.send(
-                    "https://postman-echo.com/get",
-                    {},
-                    function(xhr){console.log(":D " + xhr.status)},
-                    function(xhr){console.log(":,( " + xhr.status)}
-        )
+        // prepare callback functions
+        function success(xhr){
+            console.log(":D " + xhr.status)
+            // TODO: don't keep pass in db
+            DB.writeLoginDataToDB(login, pass)
+            // go to next view
+        }
 
-        DB.writeLoginDataToDB(login, pass)
-        var msg = "???"
-        form.unlockForm(msg)
+        function fial(xhr){
+            console.log(":,( " + xhr.status)
+            var msg = "???"
+            form.unlockForm(msg)
+        }
+
+        //prepare data package
+        var pack = { 'login': login, 'pass': pass }
+
+        // send request to server
+        HttpRequest.send("/driver/login", pack, success, fial)
     }
 
     loginButton.onClicked: {
         // set view attributes
-        form.logIn(loginNameInput.text, loginPasswordInput.text)
+        form.logIn(loginNameInput.currentText, loginPasswordInput.text)
     }
 
     registrationViewLink.onClicked: {
