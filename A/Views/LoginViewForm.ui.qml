@@ -29,11 +29,14 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
-        TextField {
+        ComboBox {
             id: loginNameInput
-            text: qsTr("")
+            textRole: qsTr("")
+            editable: true
+            model: ListModel {
+            }
+            width: loginPasswordInput.width
             anchors.horizontalCenter: parent.horizontalCenter
-            horizontalAlignment: Text.AlignHCenter
         }
 
         Label {
