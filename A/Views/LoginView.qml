@@ -78,10 +78,13 @@ LoginViewForm {
         }
         form.lockForm()
         // validate passed data
-        var isValid = true
-        if (!login){ loginErrorText.text = MESSAGES.login_required; isValid = false }
-        if (!pass){ loginErrorText.text = MESSAGES.password_required; isValid = false }
-        if (!isValid){ form.unlockForm(); return null }
+        var validationMessage = ""
+        if (!login){ validationMessage += MESSAGES.login_required + "\n" }
+        if (!pass){ validationMessage += MESSAGES.password_required }
+        if (validationMessage.length){
+            form.unlockForm(validationMessage.trim());
+            return null;
+        }
         // obscure password
         pass = form.obscure(pass)
         // send request to server
