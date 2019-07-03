@@ -37,7 +37,7 @@ async def drivers(request):
     d = {
         "last": None,  # TODO: pass
         "list": [],
-        "passwordRequired": False,  # TODO: pass
+        "passwordRequired": True,  # TODO: keep password required for now
     }
     for driver in drivers:
         d["list"].append(driver.to_dict())
