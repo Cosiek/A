@@ -19,29 +19,28 @@ LoginViewForm {
 
             // prepare success callback
             function success(xhr){
-                console.log(":D " + xhr.status)
                 form.unlockForm()
                 var resp = JSON.parse(xhr.responseText);
                 // fill login with prefered driver data
-                loginNameInput.text = resp.lastDriver || ""
+                // TODO: lastDriver from permanentSettings
+                // TODO: server can send "sugested" driver
+                loginNameInput.textRole = resp.lastDriver || ""
                 // check if password is required
                 if (!resp.passwordRequired){
                     loginPasswordInput.text = ""
                     loginPasswordInput.enabled = false
                 }
+                // fill combo box with options
+                for (var idx in resp.list){
+                    loginNameInput.model.append({ text: resp.list[idx].name })
+                }
             }
 
-            // prepare fial callback
-            function fial(xhr){
-                console.log(":,( " + xhr.status)
-                // display error msg
-                var txt = "Błąd!\nOdpowiedź serwera:\n"
-                txt += xhr.status + ": " + xhr.statusText
-                if (xhr.status + ": " + xhr.statusText !== xhr.responseText){
-                    txt += "\n" + xhr.responseText
-                }
-                unlockForm(txt)
-            }
+            // prepare fial callback (not really worth doeing anything about
+            // missing drivers list)
+            // MAYBE: check if it is a 403 and open device registration?
+            // TODO: This is a good place to check for internet connection
+            function fial(xhr){ unlockForm(txt) }
 
             // send request
             HttpRequest.send("/drivers", {}, success, fial)
