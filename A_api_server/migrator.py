@@ -6,6 +6,7 @@ import importlib.util
 import os
 from os.path import basename, join, dirname, realpath
 import re
+from sys import stdout
 
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy import Column, Table
@@ -38,6 +39,7 @@ class BaseMigration:
         return self.finished is not None
 
     def _run(self):
+        stdout.write("Running migration: " + self.name)
         try:
             self.run()
             self.status = self.STATUS.done
