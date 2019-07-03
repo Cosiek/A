@@ -11,6 +11,7 @@ public:
     explicit Signer(QObject *parent = nullptr);
 
     Q_INVOKABLE QString getSignature(QString, QString);
+    Q_INVOKABLE QString obscure(QString, QString);
 private:
     QCryptographicHash::Algorithm algorithm;
 signals:

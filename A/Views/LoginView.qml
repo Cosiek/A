@@ -67,12 +67,11 @@ LoginViewForm {
         busyIndicator.running = false
     }
 
-    function obscure(pass){
-        // TODO
-        return pass
+    function obscure(password){
+        return signer.obscure(password, permanentSettings.get('key'))
     }
 
-    function logIn(login, pass, obscured){
+    function logIn(login, pass){
         // TODO: use some file for text messages
         var MESSAGES = {
             'login_required': "Login jest wymagany",
@@ -85,7 +84,7 @@ LoginViewForm {
         if (!pass){ loginErrorText.text = MESSAGES.password_required; isValid = false }
         if (!isValid){ form.unlockForm(); return null }
         // obscure password
-        if (!obscured){ pass = form.obscure(pass) }
+        pass = form.obscure(pass)
         // send request to server
         HttpRequest.send(
                     "https://postman-echo.com/get",
@@ -101,7 +100,7 @@ LoginViewForm {
 
     loginButton.onClicked: {
         // set view attributes
-        form.logIn(loginNameInput.text, loginPasswordInput.text, false)
+        form.logIn(loginNameInput.text, loginPasswordInput.text)
     }
 
     registrationViewLink.onClicked: {
