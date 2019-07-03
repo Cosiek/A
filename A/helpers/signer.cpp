@@ -33,3 +33,11 @@ QString Signer::getSignature(QString dataJson, QString key)
     code.addData(dt.toUtf8());
     return code.result().toHex();
 }
+
+QString Signer::obscure(QString password, QString key)
+{
+    QMessageAuthenticationCode code(this->algorithm);
+    code.setKey(key.toUtf8());
+    code.addData(password.toUtf8());
+    return code.result().toHex();
+}
