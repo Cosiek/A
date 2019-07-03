@@ -8,6 +8,8 @@ import views
 
 if __name__ == "__main__":
     app = web.Application()
-    app.add_routes([web.post('/device/register', views.device_register)])
+    app.add_routes([
+        web.post('/device/register', views.device_register),
+        web.post('/drivers', views.drivers),
 
     web.run_app(app)
