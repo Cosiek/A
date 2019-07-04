@@ -37,7 +37,8 @@ async def drivers(request):
         session.close()
         return web.Response(**response_kwargs)
     # get list of drivers working for devices firm
-    drivers = session.query(Driver).filter_by(firm_id=device.firm_id)
+    drivers = session.query(Driver)\
+            .filter_by(firm_id=device.firm_id, is_active=True)
     # serialize data
     d = {
         "last": None,  # TODO: pass
@@ -69,6 +70,7 @@ async def driver_login(request):
     # TODO: get obscured version of password
     # search db against given params
     drivers = session.query(Driver).filter_by(firm_id=device.firm_id,
+                                              is_active=True,
                                               name=params['login'],
                                               password=params['password'])
     # respond
