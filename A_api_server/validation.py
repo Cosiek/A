@@ -44,7 +44,8 @@ async def validate(request, session, required_params=None):
         return False, {'text': "Bad Request", 'status': 400}, None, None
 
     # get device data from db
-    device = session.query(Device).filter_by(name=device_id).first()
+    device = session.query(Device)\
+            .filter_by(name=device_id, is_active=True).first()
     if device is None:
         return (False,
                 {'text': "Błędny identyfikator urządzenia.", 'status': 404},
