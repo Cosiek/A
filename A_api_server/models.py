@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from db import Base
@@ -14,6 +14,7 @@ class Device(Base):
     name = Column(String(13), unique=True)
     key = Column(String(32))
     timestamp = Column(Integer)
+    is_active = Column(Boolean, default=True, nullable=False)
 
     vehicle_id = Column(Integer, ForeignKey('vehicles.id'))
     vehicle = relationship("Vehicle", uselist=False, back_populates="devices")
@@ -28,6 +29,8 @@ class Vehicle(Base):
     id = Column(Integer, primary_key=True)
     vin = Column(String(13), unique=True)
     name = Column(String(13), unique=True)
+    is_active = Column(Boolean, default=True, nullable=False)
+
 
 
 Vehicle.devices = relationship("Device", back_populates="vehicle")
@@ -38,6 +41,7 @@ class Firm(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(40), unique=True)
+    is_active = Column(Boolean, default=True, nullable=False)
 
 
 Firm.devices = relationship("Device", back_populates="firm")
@@ -50,6 +54,7 @@ class Driver(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(40))
     password = Column(String(12))
+    is_active = Column(Boolean, default=True, nullable=False)
 
     firm_id = Column(Integer, ForeignKey('firms.id'))
     firm = relationship("Firm", back_populates="drivers")
