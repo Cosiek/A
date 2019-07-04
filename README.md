@@ -21,16 +21,16 @@ Można więc jako loginu użyć np. numeru kierowcy.
 ## struktura bazy danych
 
 Tabela urządzenia:
-id | identyfikator urządzenia | klucz | id pojazdu
+id | identyfikator urządzenia | timestamp | czy aktywny | klucz | id pojazdu | id firmy
 
 Tabela pojazdy:
-id | vin | nazwa (nr taborowy) | id firmy | id brygady | id kirowcy | lokalizacja
+id | vin | nazwa (nr taborowy) | czy aktywny | id firmy | id brygady | id kirowcy | lokalizacja
 
 Tabela firmy:
-id | nazwa
+id | nazwa | czy aktywny
 
 Tabela kierowcy:
-id | imię | nazwisko | identyfikator | hasło | id firmy
+id | nazwa | identyfikator | hasło | id firmy
 
 Tabela zarządcy: (?)
 id | nazwa
