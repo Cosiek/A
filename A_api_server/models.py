@@ -31,6 +31,8 @@ class Vehicle(Base):
     name = Column(String(13), unique=True)
     is_active = Column(Boolean, default=True, nullable=False)
 
+    firm_id = Column(Integer, ForeignKey('firms.id'))
+    firm = relationship("Firm", back_populates="vehicles")
 
 
 Vehicle.devices = relationship("Device", back_populates="vehicle")
@@ -46,6 +48,7 @@ class Firm(Base):
 
 Firm.devices = relationship("Device", back_populates="firm")
 Firm.drivers = relationship("Driver", back_populates="firm")
+Firm.vehicles = relationship("Vehicle", back_populates="firm")
 
 
 class Driver(Base):
