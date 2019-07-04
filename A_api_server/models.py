@@ -3,6 +3,7 @@
 
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
+from sqlalchemy.schema import UniqueConstraint
 
 from db import Base
 
@@ -28,11 +29,14 @@ class Vehicle(Base):
 
     id = Column(Integer, primary_key=True)
     vin = Column(String(13), unique=True)
-    name = Column(String(13), unique=True)
+    name = Column(String(13))
     is_active = Column(Boolean, default=True, nullable=False)
 
     firm_id = Column(Integer, ForeignKey('firms.id'))
     firm = relationship("Firm", back_populates="vehicles")
+
+    __table_args__ = (UniqueConstraint('firm_id', 'name',
+                                       name='_firm_vehicle'),)
 
 
 Vehicle.devices = relationship("Device", back_populates="vehicle")
@@ -61,6 +65,8 @@ class Driver(Base):
 
     firm_id = Column(Integer, ForeignKey('firms.id'))
     firm = relationship("Firm", back_populates="drivers")
+
+    __table_args__ = (UniqueConstraint('firm_id', 'name', name='_firm_worker'),)
 
     def to_dict(self):
         return {
