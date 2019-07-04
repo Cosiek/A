@@ -19,7 +19,6 @@ LoginViewForm {
 
             // prepare success callback
             function success(xhr){
-                form.unlockForm()
                 var resp = JSON.parse(xhr.responseText);
                 // fill login with prefered driver data
                 // TODO: lastDriver from permanentSettings
@@ -31,9 +30,12 @@ LoginViewForm {
                     loginPasswordInput.enabled = false
                 }
                 // fill combo box with options
+                loginNameInput.model.clear()
                 for (var idx in resp.list){
                     loginNameInput.model.append({ text: resp.list[idx].name })
                 }
+
+                form.unlockForm()
             }
 
             // prepare fial callback (not really worth doeing anything about
