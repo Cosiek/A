@@ -25,10 +25,8 @@ LoginViewForm {
                 // TODO: server can send "sugested" driver
                 loginNameInput.textRole = resp.lastDriver || ""
                 // check if password is required
-                if (!resp.passwordRequired){
-                    loginPasswordInput.text = ""
-                    loginPasswordInput.enabled = false
-                }
+                loginPasswordInput.text = ""
+                loginPasswordInput.enabled = resp.passwordRequired
                 // fill combo box with options
                 loginNameInput.model.clear()
                 for (var idx in resp.list){
