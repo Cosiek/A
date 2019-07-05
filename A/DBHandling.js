@@ -16,19 +16,19 @@ function dbInit(){
 LOGIN
 ============================================================================ */
 
-function getLoginDataFromDB(){
-    var ret = {"login": null}
+function getLogin(){
+    var login = null
     var db = getDBHandle()
     db.transaction(
         function(tx){
             // pull out login data
             var rs = tx.executeSql('SELECT * FROM settings WHERE key = "login"')
             for (var i = 0; i < rs.rows.length; i++) {
-                ret.login = rs.rows.item(i).val
+                login = rs.rows.item(i).val
             }
         }
     )
-    return ret
+    return login
 }
 
 
