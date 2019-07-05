@@ -20,10 +20,6 @@ LoginViewForm {
             // prepare success callback
             function success(xhr){
                 var resp = JSON.parse(xhr.responseText);
-                // fill login with prefered driver data
-                // TODO: server can send "sugested" driver
-                var login = DB.getLogin()
-                loginNameInput.textRole = resp.lastDriver || login || ""
                 // check if password is required
                 loginPasswordInput.text = ""
                 loginPasswordInput.enabled = resp.passwordRequired
@@ -31,6 +27,12 @@ LoginViewForm {
                 loginNameInput.model.clear()
                 for (var idx in resp.list){
                     loginNameInput.model.append({ text: resp.list[idx].name })
+                }
+                // fill login with prefered driver data
+                // TODO: server can send "sugested" driver
+                var login = resp.lastDriver || DB.getLogin() || ""
+                if (loginNameInput.find(login) !== -1){
+                    loginNameInput.currentIndex = loginNameInput.find(login)
                 }
 
                 form.unlockForm()
