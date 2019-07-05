@@ -21,9 +21,9 @@ LoginViewForm {
             function success(xhr){
                 var resp = JSON.parse(xhr.responseText);
                 // fill login with prefered driver data
-                // TODO: lastDriver from permanentSettings
                 // TODO: server can send "sugested" driver
-                loginNameInput.textRole = resp.lastDriver || ""
+                var login = DB.getLogin()
+                loginNameInput.textRole = resp.lastDriver || login || ""
                 // check if password is required
                 loginPasswordInput.text = ""
                 loginPasswordInput.enabled = resp.passwordRequired
@@ -90,8 +90,7 @@ LoginViewForm {
         // prepare callback functions
         function success(xhr){
             console.log(":D " + xhr.status)
-            // TODO: don't keep pass in db
-            DB.writeLoginDataToDB(login, pass)
+            DB.writeLoginDataToDB(login)
             // go to next view
         }
 
