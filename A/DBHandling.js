@@ -17,16 +17,14 @@ LOGIN
 ============================================================================ */
 
 function getLoginDataFromDB(){
-    var ret = {"login": null, "pass": null}
+    var ret = {"login": null}
     var db = getDBHandle()
     db.transaction(
         function(tx){
             // pull out login data
-            var rs = tx.executeSql('SELECT * FROM settings WHERE key = "login" OR key = "pass"')
+            var rs = tx.executeSql('SELECT * FROM settings WHERE key = "login"')
             for (var i = 0; i < rs.rows.length; i++) {
-                var row = rs.rows.item(i)
-                if (row.key === "login"){ ret.login = row.val }
-                if (row.key === "pass"){ ret.pass = row.val }
+                ret.login = rs.rows.item(i).val
             }
         }
     )
@@ -34,12 +32,11 @@ function getLoginDataFromDB(){
 }
 
 
-function writeLoginDataToDB(login, pass){
+function writeLoginDataToDB(login){
     var db = getDBHandle()
     db.transaction(
         function(tx){
             tx.executeSql('INSERT INTO settings VALUES("login", ?)', [login,])
-            tx.executeSql('INSERT INTO settings VALUES("pass", ?)', [pass,])
         }
     )
 }
