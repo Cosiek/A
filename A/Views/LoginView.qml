@@ -92,6 +92,7 @@ LoginViewForm {
             console.log(":D " + xhr.status)
             DB.writeLoginDataToDB(login)
             // go to next view
+            stackView.push("TaskChoiceView.qml")
         }
 
         function fial(xhr){

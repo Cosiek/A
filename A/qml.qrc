@@ -11,5 +11,7 @@
         <file>Messages.js</file>
         <file>Views/NoInternet.qml</file>
         <file>Views/NoInternetForm.ui.qml</file>
+        <file>Views/TaskChoiceView.qml</file>
+        <file>Views/TaskChoiceViewForm.ui.qml</file>
     </qresource>
 </RCC>
