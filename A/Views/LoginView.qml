@@ -74,7 +74,7 @@ LoginViewForm {
     }
 
     function obscure(password){
-        return signer.obscure(password, permanentSettings.get('key'))
+        return signer.obscure(password, Settings.OBSCURATION_KEY)
     }
 
     function logIn(login, pass){
