@@ -6,6 +6,7 @@ import hmac
 import json
 
 from models import Device
+from settings import OBSCURATION_KEY
 
 
 def get_signature(params, key):
@@ -64,3 +65,8 @@ async def validate(request, session, required_params=None):
     else:
         return (False, {'text': "Zły podpis wiadomośći.", 'status': 401},
                 device, params)
+
+
+def obscure(password):
+    m = hmac.new(OBSCURATION_KEY, password.encode('utf-8'), hashlib.md5)
+    return m.hexdigest()
