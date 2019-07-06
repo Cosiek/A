@@ -67,13 +67,18 @@ async def driver_login(request):
     if not is_valid:
         session.close()
         return web.Response(**response_kwargs)
-    # TODO: get obscured version of password
     # search db against given params
-    drivers = session.query(Driver).filter_by(firm_id=device.firm_id,
-                                              is_active=True,
-                                              name=params['login'],
-                                              password=params['password'])
-    # respond
-    # TODO: update device timestamp
+    driver = session.query(Driver).filter_by(firm_id=device.firm_id,
+                                             is_active=True,
+                                             name=params['login'],
+                                             password=params['password'])\
+                                  .first()
+    if driver is None:
+        response_kwargs['status'] = 401
+        response_kwargs['text'] = "Błędny login lub hasło."
+        return web.Response(**response_kwargs)
+    # TODO: update device timestamp and driver
+    # write event
     session.close()
+    # respond
     return web.Response(**response_kwargs)
