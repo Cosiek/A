@@ -7,37 +7,35 @@ from aiohttp import web
 
 from db import db_session
 from models import Driver
-from validation import validate
+from validation import view_validation
 
 
 # Device registration -----------------
 
 @db_session
+@view_validation()
 async def device_register(request):
     """
     Validates if signature key passed to device registration form
     is valid. This view doesn't write anything.
     """
-    _, response_kwargs, _, _ = await validate(request, request['db_session'])
-    return web.Response(**response_kwargs)
+    return web.Response(**request['response_kwargs'])
 
 
 # Driver login ------------------------
 
 @db_session
+@view_validation()
 async def drivers(request):
     """
     Returns a list of drivers associated with devices firm and some data
     needed for driver login.
     """
-    # validate request
-    is_valid, response_kwargs, device, params = await validate(
-        request, request['db_session'])
-    if not is_valid:
-        return web.Response(**response_kwargs)
+    if not request['is_valid']:
+        return web.Response(**request['response_kwargs'])
     # get list of drivers working for devices firm
     drivers_ = request['db_session'].query(Driver)\
-        .filter_by(firm_id=device.firm_id, is_active=True)
+        .filter_by(firm_id=request['device'].firm_id, is_active=True)
     # serialize data
     d = {
         "last": None,  # TODO: pass
@@ -45,21 +43,19 @@ async def drivers(request):
         "passwordRequired": True,  # TODO: keep password required for now
     }
     # prepare data package
-    response_kwargs['text'] = json.dumps(d)
-    # TODO update device timestamp
-    return web.Response(**response_kwargs)
+    request['response_kwargs']['text'] = json.dumps(d)
+    return web.Response(**request['response_kwargs'])
 
 
 @db_session
+@view_validation(required_params=['login', 'password'])
 async def driver_login(request):
     """
     Returns with Ok (200) status if login was successful
     """
-    # validate request
-    required = ['login', 'password']
-    is_valid, response_kwargs, device, params = \
-        await validate(request, request['db_session'], required)
-    if not is_valid:
+    response_kwargs, device = request['response_kwargs'], request['device']
+    params = request['params']
+    if not request['is_valid']:
         return web.Response(**response_kwargs)
     # search db against given params
     driver = request['db_session'].query(Driver) \
@@ -70,7 +66,7 @@ async def driver_login(request):
         response_kwargs['status'] = 401
         response_kwargs['text'] = "Błędny login lub hasło."
         return web.Response(**response_kwargs)
-    # TODO: update device timestamp and driver
+    # TODO: update device driver
     # write event
     # respond
     return web.Response(**response_kwargs)
