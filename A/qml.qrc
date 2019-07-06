@@ -9,5 +9,7 @@
         <file>HttpRequest.js</file>
         <file>Settings.js</file>
         <file>Messages.js</file>
+        <file>Views/NoInternet.qml</file>
+        <file>Views/NoInternetForm.ui.qml</file>
     </qresource>
 </RCC>
