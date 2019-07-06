@@ -66,7 +66,8 @@ async def driver_login(request):
         response_kwargs['status'] = 401
         response_kwargs['text'] = "Błędny login lub hasło."
         return web.Response(**response_kwargs)
-    # TODO: update device driver
-    # write event
+    # update device driver
+    device.driver_id = driver.id
+    # TODO: write event
     # respond
     return web.Response(**response_kwargs)
