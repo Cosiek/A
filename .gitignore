@@ -4,3 +4,6 @@ build-A-Android_for_armeabi_v7a_Clang_Qt_5_10_1_for_Android_armv7-Debug/*
 
 *.pyc
 *.db
+
+# helper files
+drivers.txt
