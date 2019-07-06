@@ -103,7 +103,7 @@ LoginViewForm {
         }
 
         //prepare data package
-        var pack = { 'login': login, 'pass': pass }
+        var pack = { 'login': login, 'password': pass }
 
         // send request to server
         HttpRequest.send("/driver/login", pack, success, fial)
