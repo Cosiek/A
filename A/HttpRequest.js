@@ -1,5 +1,4 @@
 Qt.include("Settings.js")
-// TODO: Qt statless libraries
 
 function send(url, data, success, fial){
     // get id and key

@@ -8,5 +8,6 @@
         <file>DBHandling.js</file>
         <file>HttpRequest.js</file>
         <file>Settings.js</file>
+        <file>Messages.js</file>
     </qresource>
 </RCC>

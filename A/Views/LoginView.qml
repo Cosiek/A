@@ -4,6 +4,7 @@ import QtQuick.LocalStorage 2.0
 
 import "../DBHandling.js" as DB
 import "../HttpRequest.js" as HttpRequest
+import "../Messages.js" as Messages
 import "../Settings.js" as Settings
 
 
@@ -41,11 +42,8 @@ LoginViewForm {
             // prepare fial callback (not really worth doeing much about
             // missing drivers list)
             function fial(xhr){
-                var msg = ""
-                if (xhr.status === 401){
-                    msg = "Błąd zapytania do serwera.\n"
-                    msg += "Czy urządzenie jest zarejestrowane?"
-                }
+                var msg = xhr.status === 401 ? Messages.get(
+                                                   'is_device_registered') : ""
                 unlockForm(msg)
             }
 
@@ -78,16 +76,11 @@ LoginViewForm {
     }
 
     function logIn(login, pass){
-        // TODO: use some file for text messages
-        var MESSAGES = {
-            'login_required': "Login jest wymagany",
-            'password_required': "Hasło jest wymagane",
-        }
         form.lockForm()
         // validate passed data
         var validationMessage = ""
-        if (!login){ validationMessage += MESSAGES.login_required + "\n" }
-        if (!pass){ validationMessage += MESSAGES.password_required }
+        if (!login){ validationMessage += Messages.get('login_required') + "\n" }
+        if (!pass){ validationMessage += Messages.get('password_required') }
         if (validationMessage.length){
             form.unlockForm(validationMessage.trim());
             return null;
@@ -102,7 +95,7 @@ LoginViewForm {
         }
 
         function fial(xhr){
-            var txt = "Błąd!\nOdpowiedź serwera:\n"
+            var txt = Messages.get('error_server_response') + "\n"
             txt += xhr.status + ": " + xhr.statusText
             if (xhr.status + ": " + xhr.statusText !== xhr.responseText){
                 txt += "\n" + xhr.responseText
