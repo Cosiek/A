@@ -22,7 +22,9 @@ function _send(url, data, id, key, success, fial){
             success(xhr)
         } else if (xhr.readyState === XMLHttpRequest.DONE
                 && xhr.status === 0){
-            console.log("TODO: No internet connection!")
+            // No internet connection! (or server unavailable)
+            // TODO: what to do once connection is restored? Retry?
+            stackView.push("Views/NoInternet.qml")
             fial(xhr)
         } else if (xhr.readyState === XMLHttpRequest.DONE){
             fial(xhr)
