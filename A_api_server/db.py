@@ -23,6 +23,7 @@ def db_session(f):
         try:
             request['db_session'] = session
             resp = await f(request)
+            session.commit()
             return resp
         except:
             session.rollback()
