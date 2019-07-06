@@ -12,6 +12,7 @@ if __name__ == "__main__":
         web.post('/device/register', views.device_register),
         web.post('/drivers', views.drivers),
         web.post('/driver/login', views.driver_login),
+        web.post('/driver/logout', views.driver_logout),
     ])
 
     web.run_app(app)

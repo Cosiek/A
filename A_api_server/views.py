@@ -71,3 +71,19 @@ async def driver_login(request):
     # TODO: write event
     # respond
     return web.Response(**response_kwargs)
+
+
+@db_session
+@view_validation()
+async def driver_logout(request):
+    """
+    Returns with Ok (200) status if logout was successful
+    """
+    response_kwargs, device = request['response_kwargs'], request['device']
+    if not request['is_valid']:
+        return web.Response(**response_kwargs)
+    # update device driver
+    device.driver_id = None
+    # TODO: write event
+    # respond
+    return web.Response(**response_kwargs)
