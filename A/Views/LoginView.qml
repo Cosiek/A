@@ -102,9 +102,12 @@ LoginViewForm {
         }
 
         function fial(xhr){
-            console.log(":,( " + xhr.status)
-            var msg = "???"
-            form.unlockForm(msg)
+            var txt = "Błąd!\nOdpowiedź serwera:\n"
+            txt += xhr.status + ": " + xhr.statusText
+            if (xhr.status + ": " + xhr.statusText !== xhr.responseText){
+                txt += "\n" + xhr.responseText
+            }
+            form.unlockForm(txt)
         }
 
         //prepare data package
