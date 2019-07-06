@@ -36,6 +36,7 @@ async def validate(request, session, required_params=None):
         if params.get(param_name) is None:
             return False, {'text': "Bad Request", 'status': 400}, None, None
 
+    # TODO: use real (db) device id instead of a name
     device_id = params.get("id")
     device_signature = params.get("signature")
     device_timestamp = params.get("timestamp")
