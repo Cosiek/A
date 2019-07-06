@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.1
 
 import "../HttpRequest.js" as HttpRequest
+import "../Messages.js" as Messages
 
 DeviceRegViewForm {
 
@@ -27,7 +28,7 @@ DeviceRegViewForm {
 
         function fial(xhr){
             // display error msg
-            var txt = "Błąd!\nOdpowiedź serwera:\n"
+            var txt = Messages.get('error_server_response') + '\n'
             txt += xhr.status + ": " + xhr.statusText
             if (xhr.status + ": " + xhr.statusText !== xhr.responseText){
                 txt += "\n" + xhr.responseText
