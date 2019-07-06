@@ -38,11 +38,16 @@ LoginViewForm {
                 form.unlockForm()
             }
 
-            // prepare fial callback (not really worth doeing anything about
+            // prepare fial callback (not really worth doeing much about
             // missing drivers list)
-            // MAYBE: check if it is a 403 and open device registration?
-            // TODO: This is a good place to check for internet connection
-            function fial(xhr){ unlockForm(txt) }
+            function fial(xhr){
+                var msg = ""
+                if (xhr.status === 401){
+                    msg = "Błąd zapytania do serwera.\n"
+                    msg += "Czy urządzenie jest zarejestrowane?"
+                }
+                unlockForm(msg)
+            }
 
             // send request
             HttpRequest.send("/drivers", {}, success, fial)
