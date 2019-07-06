@@ -29,7 +29,6 @@ function _send(url, data, id, key, success, fial){
             fial(xhr)
         }
     })
-    // TODO: make sure this doesn't double with onreadystatechange
     xhr.onerror = fial
 
     // prepare url
