@@ -20,6 +20,9 @@ class Device(Base):
     vehicle_id = Column(Integer, ForeignKey('vehicles.id'))
     vehicle = relationship("Vehicle", uselist=False, back_populates="devices")
 
+    driver_id = Column(Integer, ForeignKey('drivers.id'), nullable=True)
+    driver = relationship("Driver", uselist=False, back_populates="device")
+
     firm_id = Column(Integer, ForeignKey('firms.id'))
     firm = relationship("Firm", back_populates="devices")
 
@@ -65,6 +68,8 @@ class Driver(Base):
 
     firm_id = Column(Integer, ForeignKey('firms.id'))
     firm = relationship("Firm", back_populates="drivers")
+
+    device = relationship("Device", uselist=False, back_populates="driver")
 
     __table_args__ = (UniqueConstraint('firm_id', 'name', name='_firm_worker'),)
 
