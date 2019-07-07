@@ -68,14 +68,24 @@ async def validate(request, session, required_params=None):
                 device, params)
 
 
-def view_validation(required_params=None):
+def view_validation(required_params=None, update_t=True):
+    """
+    A decorator that validates if incoming requests are properly signed and
+    have correct timestamp.
+
+    Since it needs to parse incoming json and get device from db, it also
+    annotates requests with this data.
+
+    :param required_params: list of keys that should be present in passed json
+    :param update_t: whether or not to update device timestamp id db.
+    """
     def outer_wrapper(f):
         async def inner_wrapper(request):
             # run validation
             is_valid, response_kwargs, device, params = await validate(
                 request, request['db_session'], required_params)
             # update timestamp if valid
-            if is_valid:
+            if is_valid and update_t:
                 device.timestamp = params["timestamp"]
             # pass everything to request
             request['is_valid'] = is_valid

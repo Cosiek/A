@@ -25,7 +25,7 @@ async def device_register(request):
 # Driver login ------------------------
 
 @db_session
-@view_validation()
+@view_validation(update_t=False)
 async def drivers(request):
     """
     Returns a list of drivers associated with devices firm and some data
@@ -38,7 +38,7 @@ async def drivers(request):
         .filter_by(firm_id=request['device'].firm_id, is_active=True)
     # serialize data
     d = {
-        "last": None,  # TODO: pass
+        "last": None,  # TODO: retrieve suggested driver instead of last one
         "list": [d.to_dict() for d in drivers_],
         "passwordRequired": True,  # TODO: keep password required for now
     }

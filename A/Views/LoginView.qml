@@ -30,7 +30,6 @@ LoginViewForm {
                     loginNameInput.model.append({ text: resp.list[idx].name })
                 }
                 // fill login with prefered driver data
-                // TODO: server can send "sugested" driver
                 var login = resp.lastDriver || DB.getLogin() || ""
                 if (loginNameInput.find(login) !== -1){
                     loginNameInput.currentIndex = loginNameInput.find(login)
