@@ -18,9 +18,9 @@ Item {
         Text {
             id: element
             text: qsTr("Logowanie")
+            font.pointSize: 15
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 20
         }
 
         Label {
@@ -57,6 +57,8 @@ Item {
             id: loginErrorText
             color: "#ff0000"
             text: qsTr(" ")
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 12
         }
@@ -69,7 +71,8 @@ Item {
 
         BusyIndicator {
             id: busyIndicator
-            visible: false
+            spacing: 0
+            visible: true
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
