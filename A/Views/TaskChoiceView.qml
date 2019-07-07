@@ -1,26 +1,132 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.1
 
 import "../HttpRequest.js" as HttpRequest
+import "../Messages.js" as Messages
 
 TaskChoiceViewForm {
 
-    logoutButton.onClicked: {
-        console.log("Uciekam!")
-        // TODO: lock form
+    function getLines(){
+        lockForm()
+
+        // prepare success callback
+        function success(xhr){
+            var resp = JSON.parse(xhr.responseText);
+            // fill lines combo box with options
+            lineChoice.model.clear()
+            for (var idx in resp.list){
+                lineChoice.model.append(
+                            {text: resp.list[idx].name })
+            }
+            // fill with prefered line data
+            var line = resp.preferedLine || permanentSettings.get('lastLine') || ""
+            if (lineChoice.find(line) !== -1){
+                lineChoice.currentIndex = lineChoice.find(line)
+            }
+
+            form.unlockForm()
+        }
+
+        // prepare fial callback - not really worth doeing much about it.
+        function fial(xhr){ unlockForm() }
+
+        // send request
+        HttpRequest.send("/lines", {}, success, fial)
+    }
+
+    function getBrigades(){
+        lockForm()
+
+        // prepare success callback
+        function success(xhr){
+            var resp = JSON.parse(xhr.responseText);
+            // fill brigades combo box with options
+            brigadeChoice.model.clear()
+            for (var idx in resp.list){
+                brigadeChoice.model.append(
+                            {text: resp.list[idx].name })
+            }
+            // fill with prefered line data
+            var brigade = resp.preferedBrigade || permanentSettings.get('lastBrigade') || ""
+            if (brigadeChoice.find(brigade) !== -1){
+                brigadeChoice.currentIndex = brigadeChoice.find(brigade)
+            }
+
+            form.unlockForm()
+        }
+
+        // prepare fial callback - not really worth doeing much about it.
+        function fial(xhr){ unlockForm() }
+
+        // send request
+        HttpRequest.send("/line/brigades", {}, success, fial)
+    }
+
+    function logout(){
+        lockForm()
         // prepare callbacks
         function success(xhr){
-            console.log("Wylogowany! :)")
-            // TODO: unlock form
+            unlockForm()
             // jump to login view
             stackView.pop()
         }
         function fial(xhr){
-            // TODO: unlock form
             var txt = xhr.status + ": " + xhr.statusText + " - " + xhr.responseText
-            console.log("Nic nie boli tak jak życie! :/")
-            console.log(txt)
+            unlockForm(txt)
         }
         // send request to server
         HttpRequest.send("/driver/logout", {}, success, fial)
     }
+
+    function chooseTask(){
+        lockForm()
+        // prepare callbacks
+        function success(xhr){
+            unlockForm()
+            // TODO: jump to task view
+        }
+        function fial(xhr){
+            var txt = Messages.get('error_server_response') + "\n"
+            txt += xhr.status + ": " + xhr.statusText
+            if (xhr.status + ": " + xhr.statusText !== xhr.responseText){
+                txt += "\n" + xhr.responseText
+            }
+            unlockForm(txt)
+        }
+
+        // data prepare package
+        var pack = {
+            'line': '',
+            'brigade': ''  // TODO: try to get Id?
+        }
+
+        // send request to server
+        // TODO: add view
+        // TODO: rethink urls
+        HttpRequest.send("/driver/start_task", pack, success, fial)
+    }
+
+    function lockForm(){
+        setFormActive(false)
+        requestErrorText.text = ''
+    }
+
+    function unlockForm(requestErrorTextText){
+        setFormActive(true)
+        requestErrorText.text = requestErrorTextText || ''
+    }
+
+    function setFormActive(isActive){
+        busyIndicator.running = !isActive
+        lineChoice.enabled = isActive
+        brigadeChoice.enabled = isActive
+        confirmButton.enabled = isActive
+        logoutButton.enabled = isActive
+    }
+
+    logoutButton.onClicked: logout()
+
+    confirmButton.onClicked: chooseTask()
+
+    StackView.onActivating: getLines()
 }
