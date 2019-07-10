@@ -125,4 +125,36 @@ async def brigades(request):
 
     return web.Response(**request['response_kwargs'])
 
+
+@db_session
+@view_validation(update_t=False, required_params=['line', 'brigade'])
+async def start_task(request):
     return web.Response(**request['response_kwargs'])
+
+
+'''
+@db_session
+@view_validation(update_t=False)
+async def lines(request):
+    """
+    Returns a list of lines associated with devices firm.
+    """
+    if not request['is_valid']:
+        return web.Response(**request['response_kwargs'])
+    # get list of lines for devices firm
+    lines = request['db_session'].query(Line)\
+        .filter_by(firm_id=request['device'].firm_id, is_active=True)
+    # serialize data
+    d = {
+        "suggestedLine": None,  # TODO: retrieve suggested line
+        "lines": [d.to_dict() for d in lines],
+        "suggestedBrigade": None,  # TODO: retrieve suggested brigade
+        "brigades": [b.to_dict() for b in brigades],
+    }
+    # get list of brigades for suggested line
+    brigades = request['db_session'].query(Brigade) \
+        .filter_by(firm_id=request['device'].firm_id, is_active=True)
+    # prepare data package
+    request['response_kwargs']['text'] = json.dumps(d)
+    return web.Response(**request['response_kwargs'])
+'''

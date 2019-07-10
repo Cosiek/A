@@ -46,11 +46,12 @@ TaskChoiceViewForm {
             // fill brigades combo box with options
             brigadeChoice.model.clear()
             for (var idx in resp.list){
-                brigadeChoice.model.append(
-                            {text: resp.list[idx].name })
+                var b = resp.list[idx]
+                brigadeChoice.model.append({text: b.name, id: b.id })
             }
             // fill with prefered line data
-            var brigade = resp.preferedBrigade || permanentSettings.get('lastBrigade') || ""
+            var brigade = (resp.preferedBrigade ||
+                           permanentSettings.get('lastBrigade') || "")
             if (brigadeChoice.find(brigade) !== -1){
                 brigadeChoice.currentIndex = brigadeChoice.find(brigade)
             }
@@ -103,13 +104,11 @@ TaskChoiceViewForm {
 
         // data prepare package
         var pack = {
-            'line': '',
-            'brigade': ''  // TODO: try to get Id?
+            'line': lineChoice.model.get(lineChoice.currentIndex).id,
+            'brigade': brigadeChoice.model.get(brigadeChoice.currentIndex).id
         }
 
-        // send request to server
-        // TODO: add view
-        // TODO: rethink urls
+        // send request to server  // TODO: rethink urls
         HttpRequest.send("/driver/start_task", pack, success, fial)
     }
 
