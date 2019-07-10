@@ -87,3 +87,42 @@ async def driver_logout(request):
     # TODO: write event
     # respond
     return web.Response(**response_kwargs)
+
+
+# Task choice -------------------------
+
+@db_session
+@view_validation(update_t=False)
+async def lines(request):
+
+    lines_ = {
+        'list': [
+            {'id': 1, 'name': '1A'},
+            {'id': 2, 'name': '249'},
+            {'id': 3, 'name': '154'},
+        ],
+        'preferredLine': None,  # TODO:
+        'preferredBrigade': None,  # TODO
+    }
+
+    request['response_kwargs']['text'] = json.dumps(lines_)
+
+    return web.Response(**request['response_kwargs'])
+
+
+@db_session
+@view_validation(update_t=False, required_params=['lineId'])
+async def brigades(request):
+    line_id = request['params']['lineId']
+
+    brigades = {
+        1: [{'id': 1, 'name': '1A'}, {'id': 2, 'name': '1B'}, {'id': 3, 'name': '1C'},],
+        2: [{'id': 4, 'name': '2A'}, {'id': 7, 'name': '2B'}, {'id': 8, 'name': '2C'},],
+        3: [{'id': 5, 'name': '3A'}, {'id': 6, 'name': '3B'}, {'id': 9, 'name': '3C'},],
+    }
+
+    request['response_kwargs']['text'] = json.dumps({'list': brigades[line_id]})
+
+    return web.Response(**request['response_kwargs'])
+
+    return web.Response(**request['response_kwargs'])
