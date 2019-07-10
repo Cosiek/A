@@ -13,6 +13,8 @@ if __name__ == "__main__":
         web.post('/drivers', views.drivers),
         web.post('/driver/login', views.driver_login),
         web.post('/driver/logout', views.driver_logout),
+        web.post('/lines', views.lines),
+        web.post('/line/brigades', views.brigades),
     ])
 
     web.run_app(app)
