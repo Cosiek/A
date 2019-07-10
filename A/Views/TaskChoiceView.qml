@@ -15,16 +15,19 @@ TaskChoiceViewForm {
             // fill lines combo box with options
             lineChoice.model.clear()
             for (var idx in resp.list){
+                var l = resp.list[idx]
                 lineChoice.model.append(
-                            {text: resp.list[idx].name })
+                            {text: l.name, id: l.id })
             }
             // fill with prefered line data
-            var line = resp.preferedLine || permanentSettings.get('lastLine') || ""
+            var line = resp.preferredLine || permanentSettings.get('lastLine') || ""
             if (lineChoice.find(line) !== -1){
                 lineChoice.currentIndex = lineChoice.find(line)
+                // get brigades for selected line
+                getBrigades()
+            } else {
+                unlockForm()
             }
-
-            form.unlockForm()
         }
 
         // prepare fial callback - not really worth doeing much about it.
@@ -52,14 +55,18 @@ TaskChoiceViewForm {
                 brigadeChoice.currentIndex = brigadeChoice.find(brigade)
             }
 
-            form.unlockForm()
+            unlockForm()
         }
 
         // prepare fial callback - not really worth doeing much about it.
         function fial(xhr){ unlockForm() }
 
+        // prepare package
+        var item = lineChoice.model.get(lineChoice.currentIndex)
+        var pack = { lineId: item.id }
+
         // send request
-        HttpRequest.send("/line/brigades", {}, success, fial)
+        HttpRequest.send("/line/brigades", pack, success, fial)
     }
 
     function logout(){
@@ -123,6 +130,8 @@ TaskChoiceViewForm {
         confirmButton.enabled = isActive
         logoutButton.enabled = isActive
     }
+
+    lineChoice.onCurrentIndexChanged: getBrigades()
 
     logoutButton.onClicked: logout()
 

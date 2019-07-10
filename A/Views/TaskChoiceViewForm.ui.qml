@@ -32,6 +32,9 @@ Item {
 
         ComboBox {
             id: lineChoice
+            model: ListModel {
+            }
+            textRole: 'text'
             editable: true
             anchors.horizontalCenter: parent.horizontalCenter
         }
@@ -45,6 +48,9 @@ Item {
 
         ComboBox {
             id: brigadeChoice
+            model: ListModel {
+            }
+            textRole: 'text'
             editable: true
             anchors.horizontalCenter: parent.horizontalCenter
         }
