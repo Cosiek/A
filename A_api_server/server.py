@@ -15,6 +15,7 @@ if __name__ == "__main__":
         web.post('/driver/logout', views.driver_logout),
         web.post('/lines', views.lines),
         web.post('/line/brigades', views.brigades),
+        web.post('/driver/start_task', views.start_task),
     ])
 
     web.run_app(app)
