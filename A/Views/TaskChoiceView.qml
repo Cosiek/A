@@ -26,7 +26,8 @@ TaskChoiceViewForm {
                 // get brigades for selected line
                 getBrigades()
             } else {
-                unlockForm()
+                var txt = lineChoice.currentText.length ? "Nieznana linia" : ""
+                unlockForm(txt)
             }
         }
 
@@ -79,8 +80,8 @@ TaskChoiceViewForm {
             stackView.pop()
         }
         function fial(xhr){
-            var txt = xhr.status + ": " + xhr.statusText + " - " + xhr.responseText
-            unlockForm(txt)
+            var txt = xhr.status + ": " + xhr.statusText
+            unlockForm(txt  + " - " + xhr.responseText)
         }
         // send request to server
         HttpRequest.send("/driver/logout", {}, success, fial)
@@ -91,6 +92,11 @@ TaskChoiceViewForm {
         // prepare callbacks
         function success(xhr){
             unlockForm()
+            // save choice
+            var line = lineChoice.model.get(lineChoice.currentIndex)
+            var brigade = brigadeChoice.model.get(brigadeChoice.currentIndex)
+            permanentSettings.set('lastLine', line.text)
+            permanentSettings.set('lastBrigade', brigade.text)
             // TODO: jump to task view
         }
         function fial(xhr){
