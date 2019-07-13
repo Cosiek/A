@@ -9,6 +9,7 @@ Item {
     property alias brigadeChoice: brigadeChoice
     property alias requestErrorText: requestErrorText
     property alias lineChoice: lineChoice
+    property alias techDriveButton: techDriveButton
 
     Column {
         id: column
@@ -70,6 +71,12 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
+        Button {
+            id: techDriveButton
+            text: qsTr("Przejazd Techniczny")
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
         BusyIndicator {
             id: busyIndicator
             anchors.horizontalCenter: parent.horizontalCenter
@@ -80,6 +87,7 @@ Item {
             text: qsTr("Wyloguj")
             anchors.horizontalCenter: parent.horizontalCenter
         }
+
     }
 }
 

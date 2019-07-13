@@ -118,6 +118,26 @@ TaskChoiceViewForm {
         HttpRequest.send("/driver/start_task", pack, success, fial)
     }
 
+    function techDriveChoice(){
+        lockForm()
+        // prepare callbacks
+        function success(xhr){
+            unlockForm()
+            // TODO: jump to task view
+        }
+        function fial(xhr){
+            var txt = Messages.get('error_server_response') + "\n"
+            txt += xhr.status + ": " + xhr.statusText
+            if (xhr.status + ": " + xhr.statusText !== xhr.responseText){
+                txt += "\n" + xhr.responseText
+            }
+            unlockForm(txt)
+        }
+
+        // send request to server
+        HttpRequest.send("/driver/tech_drive", {}, success, fial)
+    }
+
     function lockForm(){
         setFormActive(false)
         requestErrorText.text = ''
@@ -141,6 +161,8 @@ TaskChoiceViewForm {
     logoutButton.onClicked: logout()
 
     confirmButton.onClicked: chooseTask()
+
+    techDriveButton.onClicked: techDriveChoice()
 
     StackView.onActivating: getLines()
 }
