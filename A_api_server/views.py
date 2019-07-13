@@ -127,7 +127,7 @@ async def brigades(request):
 
 
 @db_session
-@view_validation(update_t=False, required_params=['line', 'brigade'])
+@view_validation(required_params=['line', 'brigade'])
 async def start_task(request):
     return web.Response(**request['response_kwargs'])
 
