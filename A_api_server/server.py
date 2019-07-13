@@ -16,6 +16,7 @@ if __name__ == "__main__":
         web.post('/lines', views.lines),
         web.post('/line/brigades', views.brigades),
         web.post('/driver/start_task', views.start_task),
+        web.post('/driver/tech_drive', views.tech_drive),
     ])
 
     web.run_app(app)
