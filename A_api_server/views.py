@@ -132,6 +132,12 @@ async def start_task(request):
     return web.Response(**request['response_kwargs'])
 
 
+@db_session
+@view_validation()
+async def tech_drive(request):
+    return web.Response(**request['response_kwargs'])
+
+
 '''
 @db_session
 @view_validation(update_t=False)
