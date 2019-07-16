@@ -1,11 +1,19 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from sqlalchemy import Boolean, Column, Enum, ForeignKey, Integer, String, Table
+from sqlalchemy import Column, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from db import Base
 from enums import TransportModeEnum
+
+
+class OrganizerStation(Base):
+    __tablename__ = 'organizer_stations'
+
+    name = Column(String(64), unique=False, nullable=False)
+    organizer_id = Column(Integer, ForeignKey('organizers.id'), primary_key=True)
+    station_id = Column(Integer, ForeignKey('stations.id'), primary_key=True)
 
 
 class Station(Base):
@@ -14,6 +22,8 @@ class Station(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(64), unique=False, nullable=False)
 
+    organizers = relationship("Organizer", secondary="organizer_stations",
+                              back_populates='stations')
     platforms = relationship("Platform", back_populates='station')
 
 
