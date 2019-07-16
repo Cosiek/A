@@ -7,6 +7,7 @@ from db import engine, metadata
 import calendar
 import infrastructure
 import organization
+import schedule
 
 
 if __name__ == "__main__":
