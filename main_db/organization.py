@@ -22,6 +22,8 @@ class Organizer(Base):
 
     carriers = relationship("Carrier", secondary=organizer_carrier,
                             back_populates="organizers")
+    stations = relationship("Station", secondary="organizer_stations",
+                            back_populates="organizers")
 
 
 driver_employment = Table('driver_employment', Base.metadata,
