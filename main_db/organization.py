@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from sqlalchemy import Column, Enum, ForeignKey, Integer, String, Table
+from sqlalchemy import Boolean, Column, Enum, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
 
 from db import Base
@@ -20,13 +20,6 @@ class Organizer(Base):
                             back_populates="organizers")
 
 
-driver_employment = Table('driver_employment', Base.metadata,
-    Column('driver_id', Integer, ForeignKey('drivers.id')),
-    Column('carrier_id', Integer, ForeignKey('carriers.id')),
-    Column('driver_number', String(64))
-)
-
-
 class Carrier(Base):
     __tablename__ = 'carriers'
 
@@ -37,7 +30,7 @@ class Carrier(Base):
     # relationships
     organizers = relationship("Organizer", secondary='organizer_carrier',
                               back_populates="carriers")
-    drivers = relationship("Driver", secondary=driver_employment,
+    drivers = relationship("Driver", secondary='driver_employment',
                            back_populates="carriers")
     vehicles = relationship("Vehicle", back_populates="carrier")
 
@@ -58,8 +51,17 @@ class Driver(Base):
     password = Column(String(16), nullable=False)
 
     # relationships
-    carriers = relationship("Carrier", secondary=driver_employment,
+    carriers = relationship("Carrier", secondary='driver_employment',
                             back_populates="drivers")
+
+
+class DriverEmployment(Base):
+    __tablename__ = 'driver_employment'
+
+    driver_id = Column(Integer, ForeignKey('drivers.id'), primary_key=True)
+    carrier_id = Column(Integer, ForeignKey('carriers.id'), primary_key=True)
+    driver_number = Column(String(64))
+    is_active = Column(Boolean, default=True, nullable=False)
 
 
 class Vehicle(Base):
