@@ -7,7 +7,7 @@ from db import Session
 from calendar import *
 from enums import TransportModeEnum
 from infrastructure import Station, Platform, Section
-from organization import *
+from organization import Carrier, Organizer, Vehicle, VehicleType
 from schedule import *
 
 
@@ -69,16 +69,30 @@ def populate_infrastructure(session):
 
 def populate_organization(session):
     # add organizers...
+    org_ztm = Organizer(name="ZTM")
+    session.add(org_ztm)
+    org_km = Organizer(name="KM")
+    session.add(org_km)
+    session.flush()
     # ...and carriers...
+    session.add(Carrier(name="Tramwaje Warszawskie"))
+    session.add(Carrier(name="MZA Warszawa"))
+    session.add(Carrier(name="Mobilis Warszawa"))
+    session.add(Carrier(name="KM Warszawa"))
+    session.commit()
     # ...and combine them.
+    session.commit()
 
     # add few stations to these organizers
+    session.commit()
 
     # add couple vehicle types
+    session.commit()
 
     # hire some drivers...
+    session.commit()
     # ...and buy some vehicles
-    pass
+    session.commit()
 
 
 if __name__ == "__main__":
