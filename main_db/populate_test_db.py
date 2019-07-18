@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from db import Session
+import json
 
+from db import Session
 
 from calendar import *
 from enums import TransportModeEnum
 from infrastructure import Station, Platform, Section
-from organization import Carrier, Organizer, Vehicle, VehicleType
+from organization import (Organizer, Carrier, Driver, VehicleType, Vehicle,
+                          DriverEmployment, OrganizerCarrier)
 from schedule import *
 
 
@@ -67,36 +69,19 @@ def populate_infrastructure(session):
     session.commit()
 
 
-def populate_organization(session):
-    # add organizers...
-    org_ztm = Organizer(name="ZTM")
-    session.add(org_ztm)
-    org_km = Organizer(name="KM")
-    session.add(org_km)
-    session.flush()
-    # ...and carriers...
-    session.add(Carrier(name="Tramwaje Warszawskie"))
-    session.add(Carrier(name="MZA Warszawa"))
-    session.add(Carrier(name="Mobilis Warszawa"))
-    session.add(Carrier(name="KM Warszawa"))
-    session.commit()
-    # ...and combine them.
-    session.commit()
-
-    # add few stations to these organizers
-    session.commit()
-
-    # add couple vehicle types
-    session.commit()
-
-    # hire some drivers...
-    session.commit()
-    # ...and buy some vehicles
-    session.commit()
+def populate_organization(session, fixture):
+    for model in [Organizer, Carrier, Driver, VehicleType, Vehicle,
+                  DriverEmployment, OrganizerCarrier]:
+        for object_data in fixture.get(model.__tablename__, []):
+            session.add(model(**object_data))
 
 
 if __name__ == "__main__":
+    # read fixture
+    with open('fixture.json', 'r') as f:
+        fixture = json.loads(f.read())
+
     session = Session()
-    populate_infrastructure(session)
-    populate_organization(session)
+    #populate_infrastructure(session)
+    populate_organization(session, fixture)
     session.commit()
