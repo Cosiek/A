@@ -8,19 +8,13 @@ from db import Base
 from enums import TransportModeEnum
 
 
-organizer_carrier = Table('organizer_carrier', Base.metadata,
-    Column('organizer_id', Integer, ForeignKey('organizers.id')),
-    Column('carrier_id', Integer, ForeignKey('carriers.id')),
-)
-
-
 class Organizer(Base):
     __tablename__ = 'organizers'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
 
-    carriers = relationship("Carrier", secondary=organizer_carrier,
+    carriers = relationship("Carrier", secondary='organizer_carrier',
                             back_populates="organizers")
     stations = relationship("Station", secondary="organizer_stations",
                             back_populates="organizers")
@@ -41,11 +35,18 @@ class Carrier(Base):
     name = Column(String(64), unique=True, nullable=False)
 
     # relationships
-    organizers = relationship("Organizer", secondary=organizer_carrier,
+    organizers = relationship("Organizer", secondary='organizer_carrier',
                               back_populates="carriers")
     drivers = relationship("Driver", secondary=driver_employment,
                            back_populates="carriers")
     vehicles = relationship("Vehicle", back_populates="carrier")
+
+
+class OrganizerCarrier(Base):
+    __tablename__ = 'organizer_carrier'
+
+    organizer_id = Column(Integer, ForeignKey('organizers.id'), primary_key=True)
+    carrier_id = Column(Integer, ForeignKey('carriers.id'), primary_key=True)
 
 
 class Driver(Base):
