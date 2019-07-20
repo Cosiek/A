@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from sqlalchemy import Column, Enum, ForeignKey, Integer, String
+from sqlalchemy import Column, Enum, ForeignKey, Integer, String, Time
 
 from db import Base
 from enums import TransportModeEnum
@@ -39,6 +39,8 @@ class Drive(Base):
     __tablename__ = 'drives'
 
     id = Column(Integer, primary_key=True)
+    start_time = Column(Time, nullable=False)
+    end_time = Column(Time, nullable=False)
 
     brigade_id = Column(Integer, ForeignKey('brigades.id'))
     section_id = Column(Integer, ForeignKey('sections.id'))
