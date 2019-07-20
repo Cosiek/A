@@ -21,6 +21,7 @@ class Route(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(64), unique=False, nullable=False)
+    mode = Column(Enum(TransportModeEnum), nullable=False)
 
     line_id = Column(Integer, ForeignKey('lines.id'))
 
@@ -30,7 +31,6 @@ class Brigade(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(8), unique=False, nullable=False)
-    mode = Column(Enum(TransportModeEnum), nullable=False)
 
     route_id = Column(Integer, ForeignKey('brigades.id'))
 
