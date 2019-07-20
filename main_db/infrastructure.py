@@ -11,7 +11,7 @@ from enums import TransportModeEnum
 class OrganizerStation(Base):
     __tablename__ = 'organizer_stations'
 
-    name = Column(String(64), unique=False, nullable=False)
+    name = Column(String(64), unique=False, nullable=True)
     organizer_id = Column(Integer, ForeignKey('organizers.id'), primary_key=True)
     station_id = Column(Integer, ForeignKey('stations.id'), primary_key=True)
 
