@@ -50,5 +50,55 @@
     {"organizer_id": 1, "carrier_id": 3},
     {"organizer_id": 2, "carrier_id": 3},
     {"organizer_id": 2, "carrier_id": 4}
+  ],
+  "stations": [
+    {"id": 1, "name": "Osiedle Górczewska"},
+    {"id": 2, "name": "Kazubów"},
+    {"id": 3, "name": "Bemowo Ratusz"},
+    {"id": 4, "name": "Szobera"},
+    {"id": 5, "name": "Batalionów Chłopskich"},
+    {"id": 6, "name": "Coopera"}
+  ],
+  "platforms": [
+    {"id": 1, "name": "01", "mode": "TRAM", "station_id": 1},
+    {"id": 2, "name": "01", "mode": "TRAM", "station_id": 2},
+    {"id": 3, "name": "02", "mode": "TRAM", "station_id": 2},
+    {"id": 4, "name": "01", "mode": "TRAM", "station_id": 3},
+    {"id": 5, "name": "02", "mode": "TRAM", "station_id": 3},
+    {"id": 6, "name": "02", "mode": "BUS", "station_id": 1},
+    {"id": 7, "name": "03", "mode": "BUS", "station_id": 1},
+    {"id": 8, "name": "01", "mode": "BUS", "station_id": 2},
+    {"id": 9, "name": "02", "mode": "BUS", "station_id": 2},
+    {"id": 10, "name": "03", "mode": "BUS", "station_id": 3},
+    {"id": 11, "name": "04", "mode": "BUS", "station_id": 3},
+    {"id": 12, "name": "01", "mode": "BUS", "station_id": 4},
+    {"id": 13, "name": "02", "mode": "BUS", "station_id": 4},
+    {"id": 14, "name": "01", "mode": "BUS", "station_id": 5},
+    {"id": 15, "name": "02", "mode": "BUS", "station_id": 5},
+    {"id": 16, "name": "01", "mode": "BUS", "station_id": 6}
+  ],
+  "sections": [
+    {"id": 1, "name": "Górczewska", "mode": "TRAM", "start_platform_id": 1, "end_platform_id": 2},
+    {"id": 2, "name": "Górczewska", "mode": "TRAM", "start_platform_id": 2, "end_platform_id": 4},
+    {"id": 3, "name": "Górczewska", "mode": "TRAM", "start_platform_id": 5, "end_platform_id": 3},
+    {"id": 4, "name": "Górczewska", "mode": "TRAM", "start_platform_id": 3, "end_platform_id": 1},
+    {"id": 5, "name": "Górczewska", "mode": "BUS", "start_platform_id": 6, "end_platform_id": 8},
+    {"id": 6, "name": "Górczewska", "mode": "BUS", "start_platform_id": 8, "end_platform_id": 10},
+    {"id": 7, "name": "Górczewska", "mode": "BUS", "start_platform_id": 11, "end_platform_id": 9},
+    {"id": 8, "name": "Górczewska", "mode": "BUS", "start_platform_id": 9, "end_platform_id": 6},
+    {"id": 9, "name": "Górczewska", "mode": "BUS", "start_platform_id": 7, "end_platform_id": 12},
+    {"id": 10, "name": "Górczewska", "mode": "BUS", "start_platform_id": 12, "end_platform_id": 14},
+    {"id": 11, "name": "Górczewska", "mode": "BUS", "start_platform_id": 15, "end_platform_id": 13},
+    {"id": 12, "name": "Górczewska", "mode": "BUS", "start_platform_id": 13, "end_platform_id": 7},
+    {"id": 13, "name": "Górczewska", "mode": "BUS", "start_platform_id": 14, "end_platform_id": 16},
+    {"id": 14, "name": "Górczewska", "mode": "BUS", "start_platform_id": 16, "end_platform_id": 7}
+  ],
+  "organizer_stations": [
+    {"name": "Os. Górczewska", "organizer_id": 1, "station_id": 1},
+    {"name": null, "organizer_id": 1, "station_id": 2},
+    {"name": null, "organizer_id": 1, "station_id": 3},
+    {"name": null, "organizer_id": 1, "station_id": 4},
+    {"name": null, "organizer_id": 1, "station_id": 5},
+    {"name": null, "organizer_id": 1, "station_id": 6}
   ]
 }
