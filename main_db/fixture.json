@@ -100,5 +100,29 @@
     {"name": null, "organizer_id": 1, "station_id": 4},
     {"name": null, "organizer_id": 1, "station_id": 5},
     {"name": null, "organizer_id": 1, "station_id": 6}
+  ],
+  "lines": [
+    {"id": 1, "name": "109", "organizer_id": 1, "mode": "BUS"},
+    {"id": 2, "name": "105", "organizer_id": 1, "mode": "BUS"},
+    {"id": 3, "name": "249", "organizer_id": 1, "mode": "BUS"},
+    {"id": 4, "name": "18", "organizer_id": 1, "mode": "TRAM"}
+  ],
+  "routes": [
+    {"id": 1, "name": "Os. Górczewska → Centrum", "line_id": 1},
+    {"id": 2, "name": "Centrum → Os. Górczewska", "line_id": 1},
+    {"id": 3, "name": "Os. Górczewska → Rondo Daszyńskiego", "line_id": 2},
+    {"id": 4, "name": "Rondo Daszyńskiego → Os. Górczewska", "line_id": 2},
+    {"id": 5, "name": "Os. Górczewska → Os. Górczewska", "line_id": 3},
+    {"id": 6, "name": "Os. Górczewska → Kijowska", "line_id": 4},
+    {"id": 7, "name": "Kijowska → Os. Górczewska", "line_id": 4}
+  ],
+  "brigades": [
+    {"id": 1, "name": "1", "route_id": 1},
+    {"id": 2, "name": "2", "route_id": 1},
+    {"id": 3, "name": "3", "route_id": 1},
+    {"id": 4, "name": "04", "route_id": 1},
+    {"id": 5, "name": "1", "route_id": 1},
+    {"id": 6, "name": "1", "route_id": 1},
+    {"id": 7, "name": "1", "route_id": 1}
   ]
 }
