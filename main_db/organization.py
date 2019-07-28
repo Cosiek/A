@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from sqlalchemy import Boolean, Column, Enum, ForeignKey, Integer, String, Table
+from sqlalchemy import Boolean, Column, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from db import Base
@@ -16,6 +16,7 @@ class Organizer(Base):
 
     carriers = relationship("Carrier", secondary='organizer_carrier',
                             back_populates="organizers")
+    lines = relationship('Line', back_populates='organizer')
     stations = relationship("Station", secondary="organizer_stations",
                             back_populates="organizers")
 
@@ -80,6 +81,7 @@ class Vehicle(Base):
     vehicle_type_id = Column(Integer, ForeignKey('vehicle_types.id'),
                              nullable=True)
     vehicle_type = relationship("VehicleType", back_populates="vehicles")
+    devices = relationship("Device", back_populates="vehicle")
 
 
 class VehicleType(Base):
