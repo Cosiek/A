@@ -4,6 +4,7 @@
 from datetime import date, timedelta
 
 from sqlalchemy import Boolean, Column, Integer, SmallInteger, Date
+from sqlalchemy.orm import relationship
 
 from db import Base, Session
 
@@ -36,6 +37,9 @@ class Day(Base):
     is_holiday = Column(Boolean, default=False)
     is_vacation = Column(Boolean, default=False)
     # NOTE: winter vacation had different dates in different places
+
+    schedules = relationship('Schedule', secondary='schedule_days',
+                             back_populates='days')
 
 
 def populate_calendar(count):

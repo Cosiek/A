@@ -5,6 +5,7 @@ from db import engine, metadata
 
 # importing table classes
 import calendar
+import events
 import infrastructure
 import organization
 import schedule

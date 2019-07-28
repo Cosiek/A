@@ -60,3 +60,7 @@ class Section(Base):
                              nullable=False)
     end_platform = relationship("Platform", back_populates="incoming",
                                 foreign_keys=[end_platform_id])
+
+    routes = relationship('Route', secondary='route_sections',
+                          back_populates='sections')
+    drives = relationship('Drive', back_populates='section')
