@@ -7,6 +7,7 @@ from db import Session
 
 from calendar_ import *
 from enums import TransportModeEnum
+from events import *
 from infrastructure import Station, Platform, Section, OrganizerStation
 from organization import (Organizer, Carrier, Driver, VehicleType, Vehicle,
                           DriverEmployment, OrganizerCarrier)
