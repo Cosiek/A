@@ -43,12 +43,12 @@ class HalfRun(Base):
 
     id = Column(Integer, primary_key=True)
 
-    brigade_id = Column(Integer, ForeignKey('brigades.id'), primary_key=True)
+    brigade_id = Column(Integer, ForeignKey('brigades.id'))
     brigade = relationship('Brigade', back_populates='half_runs')
 
     drives = relationship("Drive", back_populates='half_run')
 
-    route_id = Column(Integer, ForeignKey('routes.id'), primary_key=True)
+    route_id = Column(Integer, ForeignKey('routes.id'))
     route = relationship('Route', back_populates='half_runs')
 
 
