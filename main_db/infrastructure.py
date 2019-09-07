@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from geoalchemy2.types import Geography
 from sqlalchemy import Column, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
@@ -33,7 +34,7 @@ class Platform(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(64), unique=False, nullable=True)
     mode = Column(Enum(TransportModeEnum), nullable=False)
-    # location = Column()  # TODO
+    location = Column(Geography(geometry_type='POINT'))
 
     station_id = Column(Integer, ForeignKey('stations.id'), nullable=False)
     station = relationship("Station", back_populates="platforms")
