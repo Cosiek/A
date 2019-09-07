@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from geoalchemy2.types import Geography
 from sqlalchemy import Column, Enum, ForeignKey, Integer, TIMESTAMP, JSON
 from sqlalchemy.orm import relationship
 
@@ -28,6 +29,6 @@ class Entry(Base):
     device = relationship('Device', back_populates='entries')
 
     timestamp = Column(TIMESTAMP(True))
-    # TODO: location
+    location = Column(Geography(geometry_type='POINT'))
     event = Column(Enum(EventType))
     additional_data = Column(JSON(True))
